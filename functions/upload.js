@@ -6,8 +6,10 @@ export async function onRequestPost(context) {  // Contents of context object
      waitUntil, // same as ctx.waitUntil in existing Worker API    
      next, // used for middleware or to fetch assets    
      data, // arbitrary space for passing data between middlewares 
-     } = context;
-     context.request
+     } = context; 
+
+    context.request.headers.set('Access-Control-Allow-Origin', '*');
+    context.request
      const url = new URL(request.url);
      const response = fetch('https://telegra.ph/' + url.pathname + url.search, {
          method: request.method,
