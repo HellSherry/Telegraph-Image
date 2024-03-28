@@ -38,6 +38,6 @@ export async function onRequest(context) {
         body: request.body,
     });
   // 设置允许跨域的域名
-    response.headers.set('Access-Control-Allow-Origin', '*');
-    return response;
+    response.setHeader('Access-Control-Allow-Origin', '*');
+     return response;
 }
