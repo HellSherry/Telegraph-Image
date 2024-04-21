@@ -15,7 +15,7 @@ export async function onRequest(context) {
     // 允许的请求头
     request.headers.set('Access-Control-Allow-Headers', '*'); // 或者明确指定允许的请求头
 
-     return new Response(this.context, {
+     return new Response(context, {
             status: 200, // 空内容响应，表示已成功处理请求但无内容返回
             headers: {
                 'Access-Control-Allow-Origin': '*',
