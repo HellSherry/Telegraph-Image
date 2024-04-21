@@ -2,7 +2,8 @@ export async function onRequest(req, res) {
  
  
 
-     return new Response(    req.query
+     return new Response(        JSON.stringify(res)
+ 
 , {
             status: 200, // 空内容响应，表示已成功处理请求但无内容返回
             headers: {
