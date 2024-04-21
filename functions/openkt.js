@@ -1,6 +1,5 @@
-export async function onRequest() {
- 
- var myHeaders = new Headers();
+export async function onRequest(context) {
+ let myHeaders = new Headers();
 myHeaders.append("Host", "mp-ali.smartmidea.net");
 myHeaders.append("Connection", "keep-alive");
 myHeaders.append("accessToken", "T1ks1awnk000nywa");
@@ -21,7 +20,16 @@ myHeaders.append("Accept-Language", "zh-CN,zh;q=0.9");
 myHeaders.append("Content-Type", "application/json");
 myHeaders.append("Cookie", "acw_tc=2f624a7b17137198326528264e7eda0b4aee62b3acbf83d40e644cadd2f969");
 
-var raw = JSON.stringify({
+fetch("https://mp-ali.smartmidea.net/mas/v5/app/proxy?alias=/mjl/v1/device/lua/control", requestOptions)
+   .then(response => response.text())
+   .then(result => console.log(result))
+   .catch(error => console.log('error', error));
+
+    // 非预检请求，则进行转发
+    const response = await fetch("https://mp-ali.smartmidea.net/mas/v5/app/proxy?alias=/mjl/v1/device/lua/control", {
+   method: 'POST',
+   headers: myHeaders,
+   body: JSON.stringify({
    "reqId": "08d0731cfc17186ec523b8ee3cb97a86",
    "stamp": 1713710078000,
    "applianceCode": "210006723021912",
@@ -76,18 +84,17 @@ var raw = JSON.stringify({
          "version": 92
       }
    }
-});
-
-var requestOptions = {
-   method: 'POST',
-   headers: myHeaders,
-   body: raw,
+}),
    redirect: 'follow'
-};
+})
 
-fetch("https://mp-ali.smartmidea.net/mas/v5/app/proxy?alias=/mjl/v1/device/lua/control", requestOptions)
-   .then(response => response.text())
-   .then(result => console.log(result))
-   .catch(error => console.log('error', error));
-
+  // 设置允许跨域的域名
+     return new Response( "good time", {
+            status: 200, // 空内容响应，表示已成功处理请求但无内容返回
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+                'Access-Control-Allow-Headers': '*', // 或者明确指定允许的请求头
+            },
+        });;
 }
