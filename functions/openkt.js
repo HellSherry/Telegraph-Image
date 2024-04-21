@@ -1,34 +1,38 @@
 export async function onRequest(context) {
- let myHeaders = new Headers();
-myHeaders.append("Host", "mp-ali.smartmidea.net");
-myHeaders.append("Connection", "keep-alive");
-myHeaders.append("accessToken", "T1ks1awnk000nywa");
-myHeaders.append("regionSign", "6f5aa8d966e00f46f513569cd41a3ace");
-myHeaders.append("random", "1713710078000");
-myHeaders.append("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 MicroMessenger/7.0.20.1781(0x6700143B) NetType/WIFI MiniProgramEnv/Windows WindowsWechat/WMPF WindowsWechat(0x6309092b) XWEB/9105");
-myHeaders.append("xweb_xhr", "1");
-myHeaders.append("iotAppId", "901");
-myHeaders.append("secretVersion", "1.0");
-myHeaders.append("sign", "d4cbae57b5bebab4025e9f1aea46189143296f9d4ffb26d43aca99c9a3077de9");
-myHeaders.append("version", "8.5");
-myHeaders.append("Accept", "*/*");
-myHeaders.append("Sec-Fetch-Site", "cross-site");
-myHeaders.append("Sec-Fetch-Mode", "cors");
-myHeaders.append("Sec-Fetch-Dest", "empty");
-myHeaders.append("Referer", "https://servicewechat.com/wxb12ff482a3185e46/228/page-frame.html");
-myHeaders.append("Accept-Language", "zh-CN,zh;q=0.9");
-myHeaders.append("Content-Type", "application/json");
-myHeaders.append("Cookie", "acw_tc=2f624a7b17137198326528264e7eda0b4aee62b3acbf83d40e644cadd2f969");
+     const {
+        request,
+        env,
+        params,
+        waitUntil,
+        next,
+        data,
+    } = context;
 
-fetch("https://mp-ali.smartmidea.net/mas/v5/app/proxy?alias=/mjl/v1/device/lua/control", requestOptions)
-   .then(response => response.text())
-   .then(result => console.log(result))
-   .catch(error => console.log('error', error));
+ request.headers.set("Host", "mp-ali.smartmidea.net");
+ request.headers.set("Connection", "keep-alive");
+ request.headers.set("accessToken", "T1ks1awnk000nywa");
+ request.headers.set("regionSign", "6f5aa8d966e00f46f513569cd41a3ace");
+ request.headers.set("random", "1713710078000");
+ request.headers.set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 MicroMessenger/7.0.20.1781(0x6700143B) NetType/WIFI MiniProgramEnv/Windows WindowsWechat/WMPF WindowsWechat(0x6309092b) XWEB/9105");
+ request.headers.set("xweb_xhr", "1");
+ request.headers.set("iotAppId", "901");
+ request.headers.set("secretVersion", "1.0");
+ request.headers.set("sign", "d4cbae57b5bebab4025e9f1aea46189143296f9d4ffb26d43aca99c9a3077de9");
+ request.headers.set("version", "8.5");
+ request.headers.set("Accept", "*/*");
+ request.headers.set("Sec-Fetch-Site", "cross-site");
+ request.headers.set("Sec-Fetch-Mode", "cors");
+ request.headers.set("Sec-Fetch-Dest", "empty");
+ request.headers.set("Referer", "https://servicewechat.com/wxb12ff482a3185e46/228/page-frame.html");
+ request.headers.set("Accept-Language", "zh-CN,zh;q=0.9");
+ request.headers.set("Content-Type", "application/json");
+ request.headers.set("Cookie", "acw_tc=2f624a7b17137198326528264e7eda0b4aee62b3acbf83d40e644cadd2f969");
+
 
     // 非预检请求，则进行转发
     const response = await fetch("https://mp-ali.smartmidea.net/mas/v5/app/proxy?alias=/mjl/v1/device/lua/control", {
    method: 'POST',
-   headers: myHeaders,
+   headers: request.headers,
    body: JSON.stringify({
    "reqId": "08d0731cfc17186ec523b8ee3cb97a86",
    "stamp": 1713710078000,
