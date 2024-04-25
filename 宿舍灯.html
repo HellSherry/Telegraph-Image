@@ -68,6 +68,15 @@ button:active {
     })
         client.on('connect', function () {
       console.log('Connected')
+      document.getElementById('ac').innerText="连接成功"
+      document.getElementById('bu1').disabled=''
+      document.getElementById('bu2').disabled=''
+      document.getElementById('bu3').disabled=''
+ setTimeout(() => {
+        document.getElementById('ac').innerText=""
+      }, 3000);
+      
+      
       // 订阅主题
       // client.subscribe('test', function (err) {
       //   if (!err) {
@@ -143,10 +152,10 @@ button:active {
 </head>
 
 <body>
-
-  <button onclick="aaa()">测试灯</button>
-  <button onclick="openLight()">开灯</button>
-  <button onclick="closeLight()">关灯</button>
+<div id="ac">连接服务中...</div>
+  <button id="bu1" disabled onclick="aaa()">测试灯</button>
+  <button id="bu2" disabled onclick="openLight()">开灯</button>
+  <button id="bu3" disabled onclick="closeLight()">关灯</button>
 </body>
 
 </html>
