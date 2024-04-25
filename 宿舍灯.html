@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://unpkg.com/mqtt@5.5.1/dist/mqtt.min.js"></script>
+<style>
+  button {
+    margin: 10px;
+  padding: 17px 40px;
+  border-radius: 50px;
+  cursor: pointer;
+  border: 0;
+  background-color: white;
+  box-shadow: rgb(0 0 0 / 5%) 0 0 8px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-size: 15px;
+  transition: all 0.5s ease;
+}
+
+button:hover {
+  letter-spacing: 3px;
+  background-color: hsl(261deg 80% 48%);
+  color: hsl(0, 0%, 100%);
+  box-shadow: rgb(93 24 220) 0px 7px 29px 0px;
+}
+
+button:active {
+  letter-spacing: 3px;
+  background-color: hsl(261deg 80% 48%);
+  color: hsl(0, 0%, 100%);
+  box-shadow: rgb(93 24 220) 0px 0px 0px 0px;
+  transform: translateY(10px);
+  transition: 100ms;
+}
+
+</style>
+
+  <script>
+    var client1;
+
+    async function fetchMovies() {
+      const response = await fetch('https://iot.diandeng.tech/api/v1/user/login?username=19174143998&password=efefe890e21c0c4dcde96e4addcf20cbe577759b078154e6ecf204fd45e54afc')
+      const data = await response.json();
+      console.log(data);
+      const response1 = await fetch(`https://iot.diandeng.tech/api/v1/user/overview?uuid=${data.detail.uuid}&token=${data.detail.token}`);
+      const data1 = await response1.json();
+      console.log(data1);
+    const  client = mqtt.connect('wss://broker.diandeng.tech:1886/mqtt'
+        , {
+          // Clean session
+          clean: true,
+          connectTimeout: 4000,
+          // 认证信息
+          clientId: "669bbfb3030411ef8b475254",
+          username: "669bbfb3030411ef8b475254",
+          password: data1.detail.brokers[0].iotToken,
+        })
+        client1=client;
+            // 接收消息
+    client.on('message', function (topic, message) {
+      // message is Buffer
+      console.log(message.toString())
+      client.end()
+    })
+        client.on('connect', function () {
+      console.log('Connected')
+      // 订阅主题
+      // client.subscribe('test', function (err) {
+      //   if (!err) {
+      //     // 发布消息
+      //     client.publish('test', 'Hello mqtt')
+      //   }
+      // })
+    })
+
+    }
+
+    fetchMovies();
+
+    console.log(1);
+
+    /***
+     * 浏览器环境
+     * 使用协议为 ws 和 wss 的 MQTT over WebSocket 连接
+     * EMQX 的 ws 连接默认端口为 8083，wss 为 8084
+     * 注意需要在连接地址后加上一个 path, 例如 /mqtt
+     */
+    // const url = 'wss://broker.diandeng.tech:1886/mqtt'
+    /***
+     * Node.js 环境
+     * 使用协议为 mqtt 和 mqtts 的 MQTT over TCP 连接
+     * EMQX 的 mqtt 连接默认端口为 1883，mqtts 为 8084
+     */
+    // const url = 'mqtt://broker.emqx.io:1883'
+
+    // 创建客户端实例
+    // const options = {
+    //   // Clean session
+    //   clean: true,
+    //   connectTimeout: 4000,
+    //   // 认证信息
+    //   clientId: '35d7e8821aeb11ed84335254',
+    //   username: '35d7e8821aeb11ed84335254',
+    //   password: 'lD0rTayHC8OT4eqwASkv1hMeX6dWEkmH',
+    // }
+    // client.on('connect', function () {
+    //   console.log('Connected')
+    //   // 订阅主题
+    //   // client.subscribe('test', function (err) {
+    //   //   if (!err) {
+    //   //     // 发布消息
+    //   //     client.publish('test', 'Hello mqtt')
+    //   //   }
+    //   // })
+    // })
+    function aaa() {
+   sendMsg({ "板载灯": "on" })
+    }
+    function openLight() {
+      sendMsg({ "舵机关": "tap" })
+
+    }
+    function closeLight() {
+      sendMsg({ "舵机开": "tap" })
+
+    }
+    function sendMsg(message) {
+      let a = { "fromDevice": "669bbfb3030411ef8b475254", "toDevice": "FF0F7D44AQVC4RIBQTWR153F", "deviceType": "DiyArduino", "data": message };
+      client1.publish("/device/669bbfb3030411ef8b475254/s", JSON.stringify(a))
+    }
+    // // 接收消息
+    // client.on('message', function (topic, message) {
+    //   // message is Buffer
+    //   console.log(message.toString())
+    //   client.end()
+    // })
+
+  </script>
+</head>
+
+<body>
+
+  <button onclick="aaa()">测试灯</button>
+  <button onclick="openLight()">开灯</button>
+  <button onclick="closeLight()">关灯</button>
+</body>
+
+</html>
