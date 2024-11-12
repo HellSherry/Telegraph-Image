@@ -10,7 +10,7 @@ export async function onRequest(context) {
     } = context;
    //// const res = await fetch(`https://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=5`);
    // const bing_data = await res.json();
-  const res =   fetch("http://www.sqlpub.com:8081/sql/execute?sql=select%20*%20from%20cslg%20where%20questions%20like%20%27%25"+request.body+"%25%27&dbId=mysql_mysql_sqlpub_com_3306_sherrycslg_sherrycslg&token=be21d52c97854653b882fcc3bdaadd64");
+  const res =   fetch("http://www.sqlpub.com:8081/sql/execute?sql=select%20*%20from%20cslg%20where%20questions%20like%20%27%25%25%27&dbId=mysql_mysql_sqlpub_com_3306_sherrycslg_sherrycslg&token=be21d52c97854653b882fcc3bdaadd64");
   const bing_data = await res.json();
   return new Response( bing_data  , {
            status: 200, // 空内容响应，表示已成功处理请求但无内容返回
